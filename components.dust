@@ -1,0 +1,7 @@
+{#data.c}
+	{>"before_component" /}
+	{>"before_component_{acf_fc_layout}" /}
+	{>"component_{acf_fc_layout}" /}
+	{>"after_component_{acf_fc_layout}" /}
+	{>"after_component" /}
+{/data.c}
