@@ -20,7 +20,7 @@ class Components {
 	 * 
 	 * @return Mongo
 	 */
-	public static function Execute() {
+	public static function execute() {
 		if ( defined('DPC_EXECUTED') ) {
 			return false;
 		}
@@ -30,21 +30,23 @@ class Components {
 
 		add_action( 'acf/init', __NAMESPACE__ . '\Components::hook', 1, 1 );
 
-		add_action( 'dustpress/partials', __NAMESPACE__ . '\Components::addPartialPath', 1, 1 );
+		add_action( 'dustpress/partials', __NAMESPACE__ . '\Components::add_partial_path', 1, 1 );
+
+		add_action( 'activated_plugin', __NAMESPACE__ .'\Components::load_first', 1, 1 );
 	}
 
-	public static function addPartialPath( $p ) {
+	public static function add_partial_path( $p ) {
 		$p[] = dirname( __FILE__ );
 
 		return $p;
 	}
 
 	public static function hook() {
-		self::gatherLocalComponents();
-		self::registerFieldGroup();
+		self::gather_local_components();
+		self::register_field_group();
 	}
 
-	private static function gatherLocalComponents() {
+	private static function gather_local_components() {
 		if ( is_readable( __DIR__ . '/layouts/' ) ) {
 			foreach ( new \RecursiveIteratorIterator( new \RecursiveDirectoryIterator( __DIR__ . '/layouts/', \RecursiveDirectoryIterator::SKIP_DOTS ) ) as $file ) {
 				$meta = pathinfo( $file );
@@ -60,7 +62,7 @@ class Components {
 		self::$components[] = $component;
 	}
 
-	private static function getComponents() {
+	private static function get_components() {
 		$return = [];
 
 		if ( is_array( self::$components ) && count( self::$components ) > 0 ) {
@@ -76,7 +78,7 @@ class Components {
 		return $return;
 	}
 
-	public static function registerFieldGroup() {
+	public static function register_field_group() {
 		acf_add_local_field_group(array (
 			'key' => 'dpc_field_group',
 			'title' => 'Components',
@@ -97,7 +99,7 @@ class Components {
 					'button_label' => 'Add a component',
 					'min' => '',
 					'max' => '',
-					'layouts' => self::getComponents()
+					'layouts' => self::get_components()
 				),
 			),
 			'location' => array (
@@ -120,6 +122,18 @@ class Components {
 		));
 	}
 
+	public static function load_first() {
+		$path = str_replace( WP_PLUGIN_DIR . '/', '', __FILE__ );
+
+		if ( $plugins = get_option( 'active_plugins' ) ) {
+			if ( $key = array_search( $path, $plugins ) ) {
+				array_splice( $plugins, $key, 1 );
+				array_unshift( $plugins, $path );
+				update_option( 'active_plugins', $plugins );
+			}
+		}
+	}
+
 
 	/**
 	 * A private constructor.
@@ -128,4 +142,4 @@ class Components {
 	private function __construct() {}
 }
 
-Components::Execute();
+Components::execute();

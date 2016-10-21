@@ -1,1 +1,3 @@
-<p>Teksti: {t}</p>
+<div class="dustpress_component_text">
+	<p>Teksti: {t}</p>
+</div>
