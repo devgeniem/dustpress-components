@@ -4,17 +4,14 @@ namespace DustPress\Components;
 class Component {
 	var $path;
 
-	static $before_run = false;
-	static $after_run = false;
-
 	function __construct() {
-		$class = __CLASS__;
+		$class = get_class($this);
 
 		if ( method_exists( $this, 'before' ) ) {
 			add_filter( 'dustpress/data/component=' . $this->name, function( $d ) use ($class) {
-				if ( ! $class::$before_run ) {
+				if ( ! isset( static::$before_run ) ) {
 					$this->before();
-					$class::$before_run = true;
+					static $before_run = true;
 				}
 
 				return $d;
@@ -29,9 +26,9 @@ class Component {
 		
 		if ( method_exists( $this, 'after' ) ) {
 			add_filter( 'dustpress/data/main', function( $d ) use ($class) {
-				if ( ! $class::$after_run ) {
+				if ( ! isset( static::$after_run ) ) {
 					$this->after();
-					$class::$after_run = true;
+					static $after_run = true;
 				}
 
 				return $d;
