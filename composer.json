@@ -1,0 +1,16 @@
+ {
+  "name": "devgeniem/dustpress-components",
+  "type": "wordpress-plugin",
+  "license": "GPL-2.0+",
+  "description": "DustPress component library",
+  "authors": [
+    {
+      "name": "Miika Arponen",
+      "homepage": "http://geniem.fi",
+      "role": "Developer"
+    }
+  ],
+  "keywords": [
+    "wordpress", "geniem", "dustpress", "wp", "plugin"
+  ]
+}
