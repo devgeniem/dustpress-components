@@ -3,7 +3,7 @@
  * Plugin Name: DustPress Components
  * Plugin URI: https://github.com/devgeniem/dustpress-components
  * Description: A WordPress, DustPress and ACF Flexible Contents plugin for modular component structures.
- * Version: 0.0.7
+ * Version: 0.1.0
  * Author: Geniem Oy / Miika Arponen
  * Author URI: http://www.geniem.com
  */
@@ -86,6 +86,74 @@ class Components {
 		return $return;
 	}
 
+	private static function get_local_components() {
+		$return = [];
+
+		if ( is_array( self::$components ) && count( self::$components ) > 0 ) {
+			foreach ( apply_filters( 'dustpress/components', self::$components ) as $component ) {
+				if ( method_exists( $component, 'fields' ) ) {
+					$fields = $component->fields();
+
+					$fields = apply_filters( 'dustpress/components/fields', $fields );
+					$fields = apply_filters( 'dustpress/components/fields=' . $component->label, $fields );
+
+					$subfields = [];
+
+					foreach ( $fields['sub_fields'] as $subfield ) {
+						$subfields[] = $subfield['key'];
+					}
+
+					$item = array (
+						'key' => 'clonable_' . $component->name,
+						'label' => $component->label,
+						'name' => 'c',
+						'type' => 'repeater',
+						'instructions' => '',
+						'required' => 1,
+						'conditional_logic' => 0,
+						'wrapper' => array (
+							'width' => '',
+							'class' => '',
+							'id' => '',
+						),
+						'collapsed' => '',
+						'min' => 1,
+						'max' => 1,
+						'layout' => 'block',
+						'button_label' => 'Add component',
+						'sub_fields' => array(
+							array(
+								'key' => 'clone_' . $component->name,
+								'label' => $component->label,
+								'name' => $component->name,
+								'type' => 'clone',
+								'instructions' => '',
+								'required' => 0,
+								'conditional_logic' => 0,
+								'wrapper' => array (
+									'width' => '',
+									'class' => '',
+									'id' => '',
+								),
+								'clone' => $subfields,
+								'display' => 'seamless',
+								'layout' => 'block',
+								'prefix_label' => 0,
+								'prefix_name' => 1,
+							)
+						)
+					);
+
+					$return[] = $item;
+				}
+			}
+		}
+
+		ksort( $return );
+
+		return $return;
+	}
+
 	public static function register_field_group() {
 		acf_add_local_field_group(array (
 			'key' => 'dpc_field_group',
@@ -110,6 +178,29 @@ class Components {
 					'layouts' => self::get_components()
 				),
 			),
+			'location' => array (
+				array (
+					array (
+						'param' => 'post_type',
+						'operator' => '==',
+						'value' => 'post',
+					),
+				),
+			),
+			'menu_order' => 0,
+			'position' => 'normal',
+			'style' => 'default',
+			'label_placement' => 'top',
+			'instruction_placement' => 'label',
+			'hide_on_screen' => '',
+			'active' => 0,
+			'description' => '',
+		));
+
+		acf_add_local_field_group(array (
+			'key' => 'dpc_local_fields',
+			'title' => 'Local fields',
+			'fields' => self::get_local_components(),
 			'location' => array (
 				array (
 					array (
