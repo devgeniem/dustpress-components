@@ -74,9 +74,9 @@ class Components {
 					$fields = $component->fields();
 
 					$fields = apply_filters( 'dustpress/components/fields', $fields );
-					$fields = apply_filters( 'dustpress/components/fields=' . $component->label, $fields );
+					$fields = apply_filters( 'dustpress/components/fields=' . $component->name, $fields );
 
-					$return[ $component->label ] = $fields;
+					$return[] = $fields;
 				}
 			}
 		}
@@ -95,7 +95,7 @@ class Components {
 					$fields = $component->fields();
 
 					$fields = apply_filters( 'dustpress/components/fields', $fields );
-					$fields = apply_filters( 'dustpress/components/fields=' . $component->label, $fields );
+					$fields = apply_filters( 'dustpress/components/fields=' . $component->name, $fields );
 
 					$subfields = [];
 
