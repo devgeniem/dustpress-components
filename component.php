@@ -38,7 +38,12 @@ class Component {
         $componentReflection = new \ReflectionClass( $this );
 
         $this->path = dirname( $componentReflection->getFileName() );
-        $this->url = plugin_dir_url( $componentReflection->getFileName() );
+        $this->version = get_plugin_data( $this->path . '/plugin.php' )['Version'];
+
+        // $this->url can be overriden in components plugin.php
+        if ( ! isset( $this->url ) ) {
+            $this->url = plugin_dir_url( $componentReflection->getFileName() );
+        }
 
         add_filter( 'dustpress/partials', [ $this, 'add_partial_path' ], 1, 1 );
 
@@ -52,8 +57,12 @@ class Component {
     }
 
     function enqueue_styles() {
-        if ( is_readable( $this->path . '/plugin.css' ) ) {
-            wp_enqueue_style( 'dustpress_component_' . $this->name, $this->url . 'plugin.css' );
+        if ( is_readable( $this->path . '/dist/plugin.css' ) ) {
+            wp_enqueue_style( 'dustpress_component_css_' . $this->name, $this->url . 'dist/plugin.css', '', $this->version );
+        }
+
+        if ( is_readable( $this->path . '/dist/plugin.js' ) ) {
+            wp_enqueue_script( 'dustpress_component_js_' . $this->name, $this->url . 'dist/plugin.js', array( 'jquery' ), $this->version );
         }
     }
 }
