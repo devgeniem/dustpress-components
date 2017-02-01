@@ -3,8 +3,9 @@
  * Plugin Name: DustPress Components
  * Plugin URI: https://github.com/devgeniem/dustpress-components
  * Description: A WordPress, DustPress and ACF Flexible Contents plugin for modular component structures.
- * Version: 0.1.1
+ * Version: 0.2.0
  * Author: Geniem Oy / Miika Arponen
+ * Text Domain: dustpress-components
  * Author URI: http://www.geniem.com
  */
 
@@ -27,6 +28,8 @@ class Components {
 		else {
 			define('DPC_EXECUTED',true);
 		}
+
+		load_textdomain( 'dustpress-components', dirname( __FILE__ ) . '/languages/' . get_locale() .'.mo' );
 
 		add_action( 'acf/init', __NAMESPACE__ . '\Components::hook', 1, 1 );
 
@@ -67,6 +70,8 @@ class Components {
 
 		if ( is_array( self::$components ) && count( self::$components ) > 0 ) {
 			foreach ( apply_filters( 'dustpress/components', self::$components ) as $component ) {
+				$component->label = __( $component->label, $component->textdomain );
+
 				if ( method_exists( $component, 'init' ) ) {
 					$component->init();
 				}
@@ -92,8 +97,9 @@ class Components {
 		if ( is_array( self::$components ) && count( self::$components ) > 0 ) {
 			foreach ( apply_filters( 'dustpress/components', self::$components ) as $component ) {
 				if ( method_exists( $component, 'fields' ) ) {
-					$fields = $component->fields();
 
+					$component->label = __( $component->label, $component->textdomain );
+					$fields = $component->fields();
 					$fields = apply_filters( 'dustpress/components/fields', $fields );
 					$fields = apply_filters( 'dustpress/components/fields=' . $component->name, $fields );
 
@@ -120,7 +126,7 @@ class Components {
 						'min' => 1,
 						'max' => 1,
 						'layout' => 'block',
-						'button_label' => 'Add component',
+						'button_label' => __( 'Add component', 'dustpress-components' ),
 						'sub_fields' => array(
 							array(
 								'key' => 'clone_' . $component->name,
@@ -157,11 +163,11 @@ class Components {
 	public static function register_field_group() {
 		acf_add_local_field_group(array (
 			'key' => 'dpc_field_group',
-			'title' => 'Components',
+			'title' => __( 'Components', 'dustpress-components' ),
 			'fields' => array (
 				array (
 					'key' => 'dpc_flexible_field',
-					'label' => 'Components',
+					'label' => __( 'Components', 'dustpress-components' ),
 					'name' => 'c',
 					'type' => 'flexible_content',
 					'instructions' => '',
@@ -172,7 +178,7 @@ class Components {
 						'class' => '',
 						'id' => '',
 					),
-					'button_label' => 'Add a component',
+					'button_label' => __( 'Add component', 'dustpress-components' ),
 					'min' => '',
 					'max' => '',
 					'layouts' => self::get_components()
@@ -241,4 +247,6 @@ class Components {
 	private function __construct() {}
 }
 
-Components::execute();
+if ( is_plugin_active( 'advanced-custom-fields-pro/acf.php' ) ) {
+	Components::execute();
+}

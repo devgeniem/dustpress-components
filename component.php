@@ -5,7 +5,19 @@ class Component {
     var $path;
 
     function __construct() {
-        $class = get_class($this);
+        $class = get_class( $this );
+        $plugin = get_plugin_data( $this->path . '/plugin.php' );
+
+        $componentReflection = new \ReflectionClass( $this );
+
+        $this->path = dirname( $componentReflection->getFileName() );
+        
+        $this->version = $plugin['Version'];
+        $this->textdomain = $plugin['Text-domain'];
+
+        if ( is_readable( $this->path . '/languages/' . get_locale() .'.mo' ) ) {
+            load_textdomain( $this->textdomain, $this->path . '/languages/' . get_locale() .'.mo' );
+        }
 
         if ( method_exists( $this, 'before' ) ) {
             add_filter( 'dustpress/data/component=' . $this->name, function( $d ) use ($class) {
@@ -34,11 +46,6 @@ class Component {
                 return $d;
             }, 3, 1 );
         }
-
-        $componentReflection = new \ReflectionClass( $this );
-
-        $this->path = dirname( $componentReflection->getFileName() );
-        $this->version = get_plugin_data( $this->path . '/plugin.php' )['Version'];
 
         // $this->url can be overriden in components plugin.php
         if ( ! isset( $this->url ) ) {
