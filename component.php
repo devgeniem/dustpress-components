@@ -5,8 +5,6 @@ class Component {
     var $path;
 
     function __construct() {
-        require_once ABSPATH . 'wp-admin/includes/plugin.php';
-        
         $class = get_class( $this );
 
         $componentReflection = new \ReflectionClass( $this );
