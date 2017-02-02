@@ -5,17 +5,19 @@ class Component {
     var $path;
 
     function __construct() {
+        require_once ABSPATH . 'wp-admin/includes/plugin.php';
+        
         $class = get_class( $this );
-        $plugin = get_plugin_data( $this->path . '/plugin.php' );
 
         $componentReflection = new \ReflectionClass( $this );
-
         $this->path = dirname( $componentReflection->getFileName() );
-        
-        $this->version = $plugin['Version'];
-        $this->textdomain = $plugin['Text-domain'];
 
-        if ( is_readable( $this->path . '/languages/' . get_locale() .'.mo' ) ) {
+        $plugin = get_plugin_data( $this->path . '/plugin.php' );
+
+        $this->version = $plugin['Version'] ?? "";
+        $this->textdomain = $plugin['TextDomain'] ?? "";
+
+        if ( is_readable( $this->path . '/languages/' . get_locale() .'.mo' ) && ! empty( $this->textdomain ) ) {
             load_textdomain( $this->textdomain, $this->path . '/languages/' . get_locale() .'.mo' );
         }
 
