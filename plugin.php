@@ -11,7 +11,8 @@
 
 namespace DustPress\Components;
 
-require_once('component.php');
+require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+require_once( 'component.php' );
 
 class Components {
 	private static $components;
