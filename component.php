@@ -8,7 +8,10 @@ class Component {
         $class = get_class( $this );
 
         $componentReflection = new \ReflectionClass( $this );
-        $this->path = dirname( $componentReflection->getFileName() );
+
+        if ( ! isset( $this->path ) ) {
+            $this->path = dirname( $componentReflection->getFileName() );
+        }
 
         $plugin = get_plugin_data( $this->path . '/plugin.php' );
 
