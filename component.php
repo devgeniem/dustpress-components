@@ -1,29 +1,69 @@
 <?php
+/**
+ * The component base class.
+ */
+
 namespace DustPress\Components;
 
+/**
+ * Class Component
+ *
+ * @package DustPress\Components
+ */
 class Component {
-    var $path;
 
+    /**
+     * The component root directory.
+     *
+     * @var string
+     */
+    protected $path;
+
+    /**
+     * The display name.
+     *
+     * @var string
+     */
+    public $label;
+
+    /**
+     * The slug of the component.
+     * This must match the suffix of the dust template.
+     * component-{suffix}.dust
+     *
+     * @var string
+     */
+    public $name;
+
+    /**
+     * Acf field key.
+     *
+     * @var string
+     */
+    public $key;
+
+    /**
+     * The class constructor.
+     * This must be called in the subclass constuctor.
+     */
     function __construct() {
-        $class = get_class( $this );
-
-        $componentReflection = new \ReflectionClass( $this );
-
-        if ( ! isset( $this->path ) ) {
-            $this->path = dirname( $componentReflection->getFileName() );
+        $class                = get_class( $this );
+        $component_reflection = new \ReflectionClass( $this );
+        // If there is no path set, default to component directory.
+        if ( empty( $this->path ) ) {
+            $this->path = dirname( $component_reflection->getFileName() );
         }
-
-        $plugin = get_plugin_data( $this->path . '/plugin.php' );
-
-        $this->version = $plugin['Version'] ?? "";
-        $this->textdomain = $plugin['TextDomain'] ?? "";
-
-        if ( is_readable( $this->path . '/languages/' . get_locale() .'.mo' ) && ! empty( $this->textdomain ) ) {
-            load_textdomain( $this->textdomain, $this->path . '/languages/' . get_locale() .'.mo' );
+        $plugin_file_path = $this->path . '/plugin.php';
+        $plugin           = get_plugin_data( $plugin_file_path );
+        $this->version    = $plugin['Version'] ?? '';
+        $this->textdomain = $plugin['TextDomain'] ?? '';
+        if ( is_readable( $this->path . '/languages/' . get_locale() . '.mo' ) &&
+             ! empty( $this->textdomain )
+        ) {
+            load_textdomain( $this->textdomain, $this->path . '/languages/' . get_locale() . '.mo' );
         }
-
         if ( method_exists( $this, 'before' ) ) {
-            add_filter( 'dustpress/data/component=' . $this->name, function( $d ) use ($class) {
+            add_filter( 'dustpress/data/component=' . $this->name, function( $d ) use ( $class ) {
                 if ( ! isset( static::$before_run ) ) {
                     $this->before();
                     static $before_run = true;
@@ -32,15 +72,13 @@ class Component {
                 return $d;
             }, 1, 1 );
         }
-
         if ( method_exists( $this, 'data' ) ) {
             add_filter( 'dustpress/data/component=' . $this->name, function( $d ) {
                 return apply_filters( 'dustpress/components/data=' . $this->name, $this->data( $d ) );
             }, 2, 1 );
         }
-        
         if ( method_exists( $this, 'after' ) ) {
-            add_filter( 'dustpress/data/main', function( $d ) use ($class) {
+            add_filter( 'dustpress/data/main', function( $d ) use ( $class ) {
                 if ( ! isset( static::$after_run ) ) {
                     $this->after();
                     static $after_run = true;
@@ -50,29 +88,50 @@ class Component {
             }, 3, 1 );
         }
 
-        // $this->url can be overriden in components plugin.php
+        // $this->url can be overriden in the component subclass.
         if ( ! isset( $this->url ) ) {
-            $this->url = plugin_dir_url( $componentReflection->getFileName() );
+            $this->url = plugin_dir_url( $plugin_file_path );
         }
-
         add_filter( 'dustpress/partials', [ $this, 'add_partial_path' ], 1, 1 );
-
         add_filter( 'wp_enqueue_scripts', [ $this, 'enqueue_styles' ] );
     }
 
-    function add_partial_path( $p ) {
+    /**
+     * Add the component partial path to DustPress partials.
+     *
+     * @param string $p DustPress partial path array.
+     *
+     * @return array
+     */
+    public function add_partial_path( $p ) {
         $p[] = $this->path;
 
         return $p;
     }
 
-    function enqueue_styles() {
+    /**
+     * Enqueue component scripts and styles.
+     */
+    public function enqueue_styles() {
         if ( is_readable( $this->path . '/dist/plugin.css' ) ) {
             wp_enqueue_style( 'dustpress_component_css_' . $this->name, $this->url . 'dist/plugin.css', '', $this->version );
         }
-
         if ( is_readable( $this->path . '/dist/plugin.js' ) ) {
             wp_enqueue_script( 'dustpress_component_js_' . $this->name, $this->url . 'dist/plugin.js', array( 'jquery' ), $this->version );
         }
     }
+
+    /**
+     * Run before the component is excecuted on front-end.
+     *
+     * This can be overridden in a subclass.
+     */
+    public function before() {}
+
+    /**
+     * Run after the component is excecuted on front-end.
+     *
+     * This can be overridden in a subclass.
+     */
+    public function after() {}
 }
