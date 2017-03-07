@@ -17,7 +17,7 @@ class Text extends Component {
 					'key' => 'dpc_text_text',
 					'label' => 'Text',
 					'name' => 't',
-					'type' => 'text',
+					'type' => 'textarea',
 					'instructions' => '',
 					'required' => 0,
 					'conditional_logic' => 0,
@@ -39,7 +39,6 @@ class Text extends Component {
 	}
 
 	public function data( $data ) {
-		$data['t'] = strtoupper( $data['t'] );
 		return $data;
 	}
 }
