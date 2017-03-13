@@ -39,7 +39,6 @@ class Text extends Component {
 	}
 
 	public function data( $data ) {
-		$data['t'] = strtoupper( $data['t'] );
 		return $data;
 	}
 }
