@@ -1,6 +1,15 @@
 <?php
-namespace DustPress;
+/**
+ * The component data filtering class.
+ */
 
+namespace DustPress\Components;
+
+/**
+ * Class Data
+ *
+ * @package DustPress\Components
+ */
 class Data {
 
     private static $field_group_keys;
