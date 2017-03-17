@@ -126,3 +126,54 @@ Create an ACF Clone Field that clones your component's __clonable__ version that
         'prefix_name'   => 1
     ),
 ```
+
+## Data filtering
+
+### Filter component fields
+
+You can manipulate and add fields to a component through the `dustpress/components/fields={field_name}` filter.
+
+```php
+<?php
+
+// add field Two columns to content component
+function add_fields_to_dpc_content( $fields ) {
+ 
+    $fields['sub_fields'][] = array (
+            'key'               => 'field_added_text_field',
+            'label'             => __( 'Heading', 'theme-textdomain' ),
+            'name'              => 'added_heading',
+            'type'              => 'text',
+            'instructions'      => '',
+            'required'          => 0,
+            'conditional_logic' => 0,
+            'wrapper' => array (
+                'width' => '',
+                'class' => '',
+                'id'    => '',
+            ),
+            'message'       => '',
+            'default_value' => 0,
+    );
+ 
+    return $fields;
+}
+ 
+add_filter( 'dustpress/components/fields=content', 'add_fields_to_dpc_content' );
+```
+
+### Filter component data
+
+You can manipulate the metadata stored for the component with the `dustpress/data/component={field_name}` filter. Use this to modify or add data for your component.
+
+```php
+<?php
+
+// Modify the text component data to make the string $data['t'] uppercase.
+function modify_component_data( $data ) {
+    $data['t'] = strtoupper( $data['t'] );
+    return $data;
+}
+
+add_filter( 'dustpress/data/component=text', 'modify_component_data' );
+```
