@@ -12,6 +12,5 @@
   ],
   "keywords": [
     "wordpress", "geniem", "dustpress", "wp", "plugin"
-  ],
-  "minimum-stability": "dev"
+  ]
 }
