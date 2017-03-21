@@ -27,6 +27,10 @@ class Data {
 
         if ( is_array( $data ) || is_object( $data ) ) {
             foreach ( (array) $data as $key => $item ) {
+
+                // prevent null bytes from raising notices, we don't need them anyway
+                $key = str_replace( chr(0), "", $key );
+
                 // Run component_handle function for ACF fields array.
                 if ( is_object( $item ) && isset( $item->fields ) ) {
                     self::component_handle( $item->fields );
