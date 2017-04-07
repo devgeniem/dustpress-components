@@ -177,3 +177,41 @@ function modify_component_data( $data ) {
 
 add_filter( 'dustpress/data/component=text', 'modify_component_data' );
 ```
+
+## Component settings
+
+`dustpress-components` creates options page "Components settings" to WordPress admin side.
+If component has options `dustpress-components` creates tab for components options on "Components settings" page.
+
+You can add options to a component in plugin.php
+
+```
+    /**
+        * Sets the Component options
+        *
+        * @return array Returns component option fields
+        */
+    public function options() {
+        return array(
+            array (
+                'key'               => 'field_dpc_gmaps_options_api_key',
+                'label'             => 'API key',
+                'name'              => 'dpc_gmaps_options_api_key',
+                'type'              => 'text',
+                'instructions'      => '',
+                'required'          => 0,
+                'conditional_logic' => 0,
+                'wrapper' => array (
+                    'width' => '',
+                    'class' => '',
+                    'id'    => '',
+                ),
+                'default_value'     => '',
+                'placeholder'       => '',
+                'maxlength'         => '',
+                'rows'              => '',
+                'new_lines'         => '',
+            )
+        );
+    }
+```
