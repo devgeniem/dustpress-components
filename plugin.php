@@ -3,7 +3,7 @@
  * Plugin Name: DustPress Components
  * Plugin URI: https://github.com/devgeniem/dustpress-components
  * Description: A WordPress, DustPress and ACF Flexible Contents plugin for modular component structures.
- * Version: 0.4.5
+ * Version: 0.4.6
  * Author: Geniem Oy
  * Text Domain: dustpress-components
  * Author URI: http://www.geniem.com
@@ -41,10 +41,29 @@ class Components {
             define( 'DPC_EXECUTED', true );
         }
         load_textdomain( 'dustpress-components', dirname( __FILE__ ) . '/languages/' . get_locale() . '.mo' );
+        add_action( 'init', __NAMESPACE__ . '\Components::add_options_page', 1, 1 );
         add_action( 'acf/init', __NAMESPACE__ . '\Components::hook', 1, 1 );
         add_action( 'dustpress/partials', __NAMESPACE__ . '\Components::add_partial_path', 1, 1 );
         add_action( 'activated_plugin', __NAMESPACE__ . '\Components::load_first', 1, 1 );
         add_filter( 'dustpress/data', __NAMESPACE__ . '\Data::component_invoke', 1, 1 );
+    }
+
+    /**
+    * Adds Components settings options page
+    */
+    public static function add_options_page() {
+
+        if ( is_admin() && function_exists( 'acf_add_options_page' ) ) {
+
+            $dustpress_components = array(
+                'page_title'    => __( 'DustPress components settings', 'dustpress-components' ),
+                'menu_title'    => __( 'Components settings', 'dustpress-components' ),
+                'menu_slug'     => __( 'components-settings', 'dustpress-components' ),
+                'capability'    => 'manage_options',
+            );
+            acf_add_options_page( $dustpress_components );
+        }
+
     }
 
     public static function add_partial_path( $p ) {
@@ -89,6 +108,61 @@ class Components {
                 }
             }
         }
+        ksort( $return );
+
+        return $return;
+    }
+
+    /**
+    * Gets component specific options from components plugin.php
+    */
+    private static function get_components_options() {
+                
+        $return = [];
+        $options_placement = 'top';
+        $options_placement = apply_filters( 'dustpress/components/options_placement', $options_placement );
+
+
+        if ( is_array( self::$components ) && count( self::$components ) > 0 ) {
+            foreach ( apply_filters( 'dustpress/components', self::$components ) as $component ) {
+
+                $tab_label = __( $component->label, $component->textdomain );
+
+                if ( method_exists( $component, 'options' ) ) {
+
+                    $component_options      = $component->options();
+
+                    // if options were found add tab to component settings page
+                    if ( ! empty( $component_options ) && is_array( $component_options ) ) {
+                        $component_tab = array (
+                            'key'                   => 'field_dpc_settings_' . $component->name,
+                            'label'                 => $component->label,
+                            'name'                  => 'dpc_' . $component->name . '_tab',
+                            'type'                  => 'tab',
+                            'instructions'          => '',
+                            'required'              => 0,
+                            'conditional_logic'     => 0,
+                            'wrapper' => array (
+                                'width' => '',
+                                'class' => '',
+                                'id'    => '',
+                            ),
+                            'placement' => $options_placement,
+                            'endpoint'  => 0,
+                        );
+
+                        $component_tab      = apply_filters( 'dustpress/components/component_tab=' . $component->name, $component_tab );
+                        $component_options  = apply_filters( 'dustpress/components/options=' . $component->name, $component_options );
+                        $return[]           = $component_tab;
+
+                        // merge component options
+                        $return = array_merge( $return, $component_options );
+
+                    }
+                }
+            }
+        }
+
         ksort( $return );
 
         return $return;
@@ -220,6 +294,32 @@ class Components {
             'active'                => 0,
             'description'           => '',
         ) );
+
+        // Adds component specific tab and options to options page component-settings
+        acf_add_local_field_group( array (
+            'key'       => 'group_dpc_settings',
+            'title'     => __( 'Components Settings', 'dustpress-components' ),
+            'fields'    => self::get_components_options(),
+            // DustPress component options location 
+            'location' => array (
+                array (
+                    array (
+                        'param'     => 'options_page',
+                        'operator'  => '==',
+                        'value'     => 'components-settings',
+                    ),
+                ),
+            ),
+            'menu_order'                => 0,
+            'position'                  => 'normal',
+            'style'                     => 'default',
+            'label_placement'           => 'top',
+            'instruction_placement'     => 'label',
+            'hide_on_screen'            => '',
+            'active'                    => 1,
+            'description'               => '',
+        ));
+
     }
 
     public static function load_first() {
