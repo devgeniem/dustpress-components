@@ -162,7 +162,7 @@ class Component {
                 $this->url . 'dist/plugin.css',
                 '',
                 $this->version,
-                true
+                'all'
             );
         }
     }
