@@ -11,7 +11,7 @@ composer config repositories.dustpress-components git git@github.com:devgeniem/d
 composer require devgeniem/dustpress-components
 ```
 
-## Components usage
+## Usage
 
 ### Clone Flexible Fields from Dustpress Components
 Create an ACF Clone Field that clones the `dpc_flexible_field` which is defined by the DustPress Components plugin.
