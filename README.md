@@ -218,7 +218,7 @@ You can add options to a component in plugin.php
 
 ## Disable registered components
 
-You can disable registered components with filtering them in `dustpress/components` hook.
+You can disable registered components with filtering them in the `dustpress/components` hook.
 
 ```
 add_filter( 'dustpress/components', 'disable_components' );
