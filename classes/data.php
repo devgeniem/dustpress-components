@@ -29,17 +29,17 @@ class Data {
             foreach ( (array) $data as $key => $item ) {
 
                 // prevent null bytes from raising notices, we don't need them anyway
-                $key = str_replace( chr(0), "", $key );
+                $key = str_replace( chr( 0 ), '', $key );
 
                 // Run component_handle function for ACF fields array.
                 if ( is_object( $item ) && isset( $item->fields ) ) {
                     self::component_handle( $item->fields );
                 }
-                else if ( is_array( $item ) && isset( $item['fields'] ) ) {
+                elseif ( is_array( $item ) && isset( $item['fields'] ) ) {
                     self::component_handle( $item['fields'] );
                 }
                 // No ACF fields array, continue recursively.
-                else if ( is_object( $item ) || is_array( $item ) ) {
+                elseif ( is_object( $item ) || is_array( $item ) ) {
                     self::component_invoke( $item );
                 }
 
@@ -65,21 +65,21 @@ class Data {
             // Loop through ACF fields.
             foreach ( $data as $field_key => &$field ) {
                 // Loop through all allowed component field group keys.
-                foreach( self::$field_group_keys as $field_group_key ) {
+                foreach ( self::$field_group_keys as $field_group_key ) {
                     if ( is_array( $field ) && isset( $field[ $field_group_key ] ) ) {
                         if ( is_array( $field[ $field_group_key ] ) ) {
                             // Loop through all defined components.
                             foreach ( $field[ $field_group_key ] as &$component ) {
                                 // If component is in a flexible field, run appropriate filter.
-                                if ( isset( $component[ 'acf_fc_layout' ] ) ) {
-                                    $component = apply_filters( "dustpress/data/component=" . $component[ 'acf_fc_layout' ], $component );
-                                }
-                                // If component is statically defined, run appropriate filter.
-                                else {
-                                    $component = apply_filters( "dustpress/data/component=" . $field_key, $component );
+                                if ( isset( $component['acf_fc_layout'] ) ) {
+                                    $component = apply_filters( 'dustpress/data/component=' . $component[ 'acf_fc_layout' ], $component );
                                 }
                             }
                         }
+                    }
+                    // If component is statically defined, run appropriate filter.
+                    elseif ( $field_key === $field_group_key && ! isset( $field[0][ 'acf_fc_layout'] ) ) {
+                        $field = apply_filters( 'dustpress/data/component=' . $field_key, $field );
                     }
                 }
             }
