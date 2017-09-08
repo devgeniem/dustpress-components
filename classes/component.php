@@ -105,8 +105,8 @@ class Component {
         }
 
         if ( method_exists( $this, 'data' ) ) {
-            add_filter( 'dustpress/data/component=' . $this->name, function( $d ) {
-                return apply_filters( 'dustpress/components/data=' . $this->name, $this->data( $d ) );
+            add_filter( 'dustpress/components/data=' . $this->name, function( $d ) {
+                return $this->data( $d );
             }, 2, 1 );
         }
 
