@@ -85,8 +85,7 @@ DustPress Components contains a components.dust file which loops through the cre
 {/data.c}
 ```
 
-In your template file include the `components.dust` with your cloned flexible field named as `c`.
-You can have multiple component fields adding more allowed names (in addition to `c` with "dustpress/components/field_group_keys" filter).
+In your template file include `components.dust` with your cloned flexible field named as `c`.
 
 ```dust
 {#Page.Content}
@@ -138,7 +137,7 @@ You can manipulate and add fields to a component through the `dustpress/componen
 
 // add field Two columns to content component
 function add_fields_to_dpc_content( $fields ) {
- 
+
     $fields['sub_fields'][] = array (
             'key'               => 'field_added_text_field',
             'label'             => __( 'Heading', 'theme-textdomain' ),
@@ -155,10 +154,10 @@ function add_fields_to_dpc_content( $fields ) {
             'message'       => '',
             'default_value' => 0,
     );
- 
+
     return $fields;
 }
- 
+
 add_filter( 'dustpress/components/fields=content', 'add_fields_to_dpc_content' );
 ```
 
