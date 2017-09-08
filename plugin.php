@@ -3,7 +3,7 @@
  * Plugin Name: DustPress Components
  * Plugin URI: https://github.com/devgeniem/dustpress-components
  * Description: A WordPress, DustPress and ACF Flexible Contents plugin for modular component structures.
- * Version: 0.4.7
+ * Version: 0.5.0
  * Author: Geniem Oy
  * Text Domain: dustpress-components
  * Author URI: http://www.geniem.com
@@ -117,7 +117,7 @@ class Components {
     * Gets component specific options from components plugin.php
     */
     private static function get_components_options() {
-                
+
         $return = [];
         $options_placement = 'top';
         $options_placement = apply_filters( 'dustpress/components/options_placement', $options_placement );
@@ -300,7 +300,7 @@ class Components {
             'key'       => 'group_dpc_settings',
             'title'     => __( 'Components Settings', 'dustpress-components' ),
             'fields'    => self::get_components_options(),
-            // DustPress component options location 
+            // DustPress component options location
             'location' => array (
                 array (
                     array (
