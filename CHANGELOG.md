@@ -10,8 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Static components now have acf_fc_layout field as well
 
 ### Changed
-- Static components now don't have a prefix as this would break component data functions
-- Changed clonabe static component name from c to component name
+- Static components don't have a prefix anymore as this would break component data functions
+- Changed clonable static component name from c to component name
 
 ### Changed
 - WPTEAM-59: Changed component_handle function to handle components more flexibly by searching for components in fields rather than component group fields
