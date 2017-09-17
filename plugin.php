@@ -3,7 +3,7 @@
  * Plugin Name: DustPress Components
  * Plugin URI: https://github.com/devgeniem/dustpress-components
  * Description: A WordPress, DustPress and ACF Flexible Contents plugin for modular component structures.
- * Version: 0.5.0
+ * Version: 0.5.1
  * Author: Geniem Oy
  * Text Domain: dustpress-components
  * Author URI: http://www.geniem.com
@@ -42,6 +42,7 @@ class Components {
         }
         load_textdomain( 'dustpress-components', dirname( __FILE__ ) . '/languages/' . get_locale() . '.mo' );
         add_action( 'init', __NAMESPACE__ . '\Components::add_options_page', 1, 1 );
+        add_action( 'init', __NAMESPACE__ . '\Components::load_admin_styles', 1, 1 );
         add_action( 'acf/init', __NAMESPACE__ . '\Components::hook', 1, 1 );
         add_action( 'dustpress/partials', __NAMESPACE__ . '\Components::add_partial_path', 1, 1 );
         add_action( 'activated_plugin', __NAMESPACE__ . '\Components::load_first', 1, 1 );
@@ -64,6 +65,12 @@ class Components {
             acf_add_options_page( $dustpress_components );
         }
 
+    }
+
+    public static function load_admin_styles() {
+        if ( is_admin() ) {
+            wp_enqueue_style( 'dustpress-components-admin-styles', plugin_dir_url( __FILE__ ) . '/assets/styles/main.css', [], '0.0.2');
+        }
     }
 
     public static function add_partial_path( $p ) {

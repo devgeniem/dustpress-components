@@ -1,0 +1,67 @@
+/**
+ * Custom classes.
+ *
+ * field__instructions          => Makes instruction fields in admin more visible.
+ * field__repeater__heading     => Makes iterations heading field more visible.
+ *
+ */
+
+
+/**
+ * Add this class to all ACF field groups' instruction fields in the admin.
+ * It makes the intro text more visible.
+ */
+.field__instructions {
+    color: #3c3c3c;
+    border-bottom: #c0c0c0 solid .0625rem;
+    background-color: #f0f0f0;
+}
+    .field__instructions.acf-label {
+        font-size: 1.1rem;
+        padding-bottom: .6rem;
+    }
+    .field__instructions.acf-label,
+    .field__instructions.acf-input {
+        max-width: 40rem;
+        margin: auto;
+    }
+/**
+ * Add this to each iterations heading field in your repeaters to make them stand out.
+ * The effect is the same as with the declarations above.
+ */
+.field__repeater__heading {
+    font-weight: bold;
+    color: #fff;
+    background-color: #2c2c2c;;
+}
+
+
+/**
+ * Global settings.
+ * This modifications will be automatically activated.
+ */
+
+/**
+ * This makes components' headers look different.
+ */
+.acf-postbox .acf-flexible-content .layout .acf-fc-layout-handle {
+    font-weight: bold;
+    color: #fff;
+    border-bottom: black solid .0625rem;
+    background-color: #2c2c2c;
+}
+
+/**
+ * This makes ACF true-false checkboxes look cleaner.
+ */
+.acf-postbox .acf-field-true-false > .acf-label {
+    width: 90%;
+    margin-left: 45px;
+    display: inline-block;
+}
+.acf-postbox .acf-field-true-false > .acf-input {
+    position: absolute;
+    left: 10px;
+    top: calc(50% - 8px);
+    margin-left: 10px
+}
