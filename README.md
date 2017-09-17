@@ -77,11 +77,11 @@ endif;
 DustPress Components contains a components.dust file which loops through the created components.
 ```dust
 {#data.c}
-	{>"before_component" /}
-	{>"before_component_{acf_fc_layout}" /}
-	{>"component_{acf_fc_layout}" /}
-	{>"after_component_{acf_fc_layout}" /}
-	{>"after_component" /}
+    {>"before_component" /}
+    {>"before_component_{acf_fc_layout}" /}
+    {>"component_{acf_fc_layout}" /}
+    {>"after_component_{acf_fc_layout}" /}
+    {>"after_component" /}
 {/data.c}
 ```
 
@@ -94,6 +94,13 @@ In your template file include `components.dust` with your cloned flexible field 
     {>"components" data=fields.c /}
 
 {/Page.Content}
+```
+
+### ACF -wrapper classes
+Depending on your field there are a few classes that you can use with certain fields.
+```
+ * field__instructions          => Makes instruction fields in admin more visible.
+ * field__repeater__heading     => Makes iterations heading field more visible.
 ```
 
 ## Static fields
