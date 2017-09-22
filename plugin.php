@@ -3,7 +3,7 @@
  * Plugin Name: DustPress Components
  * Plugin URI: https://github.com/devgeniem/dustpress-components
  * Description: A WordPress, DustPress and ACF Flexible Contents plugin for modular component structures.
- * Version: 0.5.0
+ * Version: 0.5.1
  * Author: Geniem Oy
  * Text Domain: dustpress-components
  * Author URI: http://www.geniem.com
@@ -45,6 +45,7 @@ class Components {
         add_action( 'init', __NAMESPACE__ . '\Components::hook', 20, 1 );
         add_action( 'dustpress/partials', __NAMESPACE__ . '\Components::add_partial_path', 1, 1 );
         add_action( 'activated_plugin', __NAMESPACE__ . '\Components::load_first', 1, 1 );
+        add_filter( 'acf/format_value', __NAMESPACE__ . '\Components::add_layout_static', 150, 3 );
         add_filter( 'dustpress/data', __NAMESPACE__ . '\Data::component_invoke', 1, 1 );
     }
 
@@ -184,7 +185,7 @@ class Components {
                     $item = array(
                         'key'               => 'clonable_' . $component->name,
                         'label'             => $component->label,
-                        'name'              => 'c',
+                        'name'              => $component->name,
                         'type'              => 'repeater',
                         'instructions'      => '',
                         'required'          => 1,
@@ -217,7 +218,7 @@ class Components {
                                 'display'           => 'seamless',
                                 'layout'            => 'block',
                                 'prefix_label'      => 0,
-                                'prefix_name'       => 1,
+                                'prefix_name'       => 0,
                             )
                         )
                     );
@@ -332,6 +333,20 @@ class Components {
                 update_option( 'active_plugins', $plugins );
             }
         }
+    }
+
+    /**
+     * Adds acf_fc_layout value to static components
+     *
+     * @param array  $value   Field values.
+     * @param string $post_id Where field is saved.
+     * @param array  $field   Field settings.
+     */
+    public static function add_layout_static( $value, $post_id, $field ) {
+        if ( strpos( $field['key'], 'clonable' ) !== false ) {
+            $value[0]['acf_fc_layout'] = $field['name'];
+        }
+        return $value;
     }
 
     /**
