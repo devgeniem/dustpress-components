@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+- Moved Components::hook function to load on init instead of acf/init so we can use data that is set after init in fields
+
 ## [0.5.1] - 2017-09-22
 
 ### Added
@@ -14,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Static components don't have a prefix anymore as this would break component data functions
 - Changed clonable static component name from c to component name
+
 
 ## [0.5.0] - 2017-09-08
 

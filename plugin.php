@@ -42,7 +42,7 @@ class Components {
         }
         load_textdomain( 'dustpress-components', dirname( __FILE__ ) . '/languages/' . get_locale() . '.mo' );
         add_action( 'init', __NAMESPACE__ . '\Components::add_options_page', 1, 1 );
-        add_action( 'acf/init', __NAMESPACE__ . '\Components::hook', 1, 1 );
+        add_action( 'init', __NAMESPACE__ . '\Components::hook', 20, 1 );
         add_action( 'dustpress/partials', __NAMESPACE__ . '\Components::add_partial_path', 1, 1 );
         add_action( 'activated_plugin', __NAMESPACE__ . '\Components::load_first', 1, 1 );
         add_filter( 'acf/format_value', __NAMESPACE__ . '\Components::add_layout_static', 150, 3 );
