@@ -105,6 +105,11 @@ class Components {
                     $fields = $component->fields();
                     $fields = apply_filters( 'dustpress/components/fields', $fields );
                     $fields = apply_filters( 'dustpress/components/fields=' . $component->name, $fields );
+
+                    if ( $fields instanceof \ Geniem\ACF\Field\Flexible\Layout ) {
+                        $fields = $fields->export();
+                    }
+
                     $return[] = $fields;
                 }
             }
@@ -131,7 +136,11 @@ class Components {
 
                 if ( method_exists( $component, 'options' ) ) {
 
-                    $component_options      = $component->options();
+                    $component_options  = apply_filters( 'dustpress/components/options=' . $component->name, $component->options() );
+
+                    if ( $component_options instanceof \ Geniem\ACF\Field\Tab ) {
+                        $component_options = \array_map( function( $field ) { return $field->export(); }, $component_options->get_fields() );
+                    }
 
                     // if options were found add tab to component settings page
                     if ( ! empty( $component_options ) && is_array( $component_options ) ) {
@@ -153,7 +162,6 @@ class Components {
                         );
 
                         $component_tab      = apply_filters( 'dustpress/components/component_tab=' . $component->name, $component_tab );
-                        $component_options  = apply_filters( 'dustpress/components/options=' . $component->name, $component_options );
                         $return[]           = $component_tab;
 
                         // merge component options
@@ -178,6 +186,11 @@ class Components {
                     $fields           = $component->fields();
                     $fields           = apply_filters( 'dustpress/components/fields', $fields );
                     $fields           = apply_filters( 'dustpress/components/fields=' . $component->name, $fields );
+
+                    if ( $fields instanceof \ Geniem\ACF\Field\Flexible\Layout ) {
+                        $fields = $fields->export();
+                    }
+
                     $subfields = [];
                     foreach ( $fields['sub_fields'] as $subfield ) {
                         $subfields[] = $subfield['key'];
