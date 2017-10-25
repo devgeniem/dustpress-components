@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.6.0] - 2017-10-25
+
+### Added
+- Support for ACF Codifier components and option fields
+
 ## [0.5.2] - 2017-09-22
 
 ### Changed
