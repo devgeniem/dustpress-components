@@ -106,7 +106,7 @@ class Components {
                     $fields = apply_filters( 'dustpress/components/fields', $fields );
                     $fields = apply_filters( 'dustpress/components/fields=' . $component->name, $fields );
 
-                    if ( $fields instanceof \ Geniem\ACF\Field\Flexible\Layout ) {
+                    if ( $fields instanceof \Geniem\ACF\Field\Flexible\Layout ) {
                         $fields = $fields->export();
                     }
 
@@ -138,7 +138,7 @@ class Components {
 
                     $component_options  = apply_filters( 'dustpress/components/options=' . $component->name, $component->options() );
 
-                    if ( $component_options instanceof \ Geniem\ACF\Field\Tab ) {
+                    if ( $component_options instanceof \Geniem\ACF\Field\Tab ) {
                         $component_options = \array_map( function( $field ) { return $field->export(); }, $component_options->get_fields() );
                     }
 
@@ -187,7 +187,7 @@ class Components {
                     $fields           = apply_filters( 'dustpress/components/fields', $fields );
                     $fields           = apply_filters( 'dustpress/components/fields=' . $component->name, $fields );
 
-                    if ( $fields instanceof \ Geniem\ACF\Field\Flexible\Layout ) {
+                    if ( $fields instanceof \Geniem\ACF\Field\Flexible\Layout ) {
                         $fields = $fields->export();
                     }
 
