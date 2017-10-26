@@ -146,7 +146,7 @@ class Components {
                     if ( ! empty( $component_options ) && is_array( $component_options ) ) {
                         $component_tab = array (
                             'key'                   => 'field_dpc_settings_' . $component->name,
-                            'label'                 => $component->label,
+                            'label'                 => ( $component->options() )->get_label() ?? $component->label,
                             'name'                  => 'dpc_' . $component->name . '_tab',
                             'type'                  => 'tab',
                             'instructions'          => '',

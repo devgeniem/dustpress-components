@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+- Added ACF Codifier as a dependency for the plugin
+
+### Changed
+- Changed all built-in components to be defined with ACF Codifier
+- Changed documentation to reflect the Codifier-related changes
+
 ## [0.6.0] - 2017-10-25
 
 ### Added
