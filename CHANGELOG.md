@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 - Added ACF Codifier as a dependency for the plugin
+- Made component's data function to be overridable
 
 ### Changed
 - Changed all built-in components to be defined with ACF Codifier

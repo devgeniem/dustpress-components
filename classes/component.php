@@ -104,11 +104,21 @@ class Component {
             }, 1, 1 );
         }
 
-        if ( method_exists( $this, 'data' ) ) {
-            add_filter( 'dustpress/components/data=' . $this->name, function( $d ) {
-                return $this->data( $d );
-            }, 2, 1 );
-        }
+        add_filter( 'dustpress/components/data=' . $this->name, function( $d ) {
+            // Make data function filterable
+            $method = apply_filters( 'dustpress/components/data_method='. $this->name, null );
+
+            if ( is_callable( $method ) ) {
+                return $method( $d );
+            }
+            else {
+                if ( method_exists( $this, 'data' ) ) {
+                    return $this->data( $d );
+                }
+            }
+
+            return $d;
+        }, 2, 1 );
 
         if ( method_exists( $this, 'after' ) ) {
             add_filter( 'dustpress/data/main', function( $d ) use ( $class ) {
