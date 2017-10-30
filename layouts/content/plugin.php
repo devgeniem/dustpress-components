@@ -1,40 +1,21 @@
 <?php
 
 namespace DustPress\Components;
+use Geniem\ACF\Field;
 
 class Content extends Component {
 	var $label = 'Content';
 	var $name = 'content';
 
 	public function fields() {
-		return array (
-			'key' => 'dpc_content',
-			'name' => $this->name,
-			'label' => $this->label,
-			'display' => 'block',
-			'sub_fields' => array (
-				array (
-					'key' => 'dpc_content_content',
-					'label' => 'Content',
-					'name' => 'c',
-					'type' => 'wysiwyg',
-					'instructions' => '',
-					'required' => 0,
-					'conditional_logic' => 0,
-					'wrapper' => array (
-						'width' => '',
-						'class' => '',
-						'id' => '',
-					),
-					'default_value' => '',
-					'tabs' => 'all',
-					'toolbar' => 'full',
-					'media_upload' => 1,
-				),
-			),
-			'min' => '',
-			'max' => '',
-		);
+		return (new Field\Flexible\Layout( $this->name ))
+			->set_key( 'dpc_content' )
+			->set_name( $this->name )
+			->set_label( $this->label )
+			->add_field( (new Field\Wysiwyg( 'Content' ))
+				->set_key( 'dpc_content_content' )
+				->set_name( 'c' )
+			);
 	}
 
 	public function data( $data ) {
