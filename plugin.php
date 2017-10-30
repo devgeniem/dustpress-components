@@ -192,6 +192,7 @@ class Components {
                     }
 
                     $subfields = [];
+
                     foreach ( $fields['sub_fields'] as $subfield ) {
                         $subfields[] = $subfield['key'];
                     }
