@@ -231,6 +231,8 @@ function override_component_data_filter( $original ) {
         return $data;
     };
 }
+
+add_filter( 'dustpress/components/data_method=text', 'override_component_data_filter' );
 ```
 
 You can also call the original data function either before or after your custom code:
