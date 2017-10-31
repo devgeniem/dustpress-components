@@ -106,7 +106,14 @@ class Component {
 
         add_filter( 'dustpress/components/data=' . $this->name, function( $d ) {
             // Make data function filterable
-            $method = apply_filters( 'dustpress/components/data_method='. $this->name, null );
+            if ( method_exists( $this, 'data' ) ) {
+                $original = [ $this, 'data' ];
+            }
+            else {
+                $original = null;
+            }
+
+            $method = apply_filters( 'dustpress/components/data_method='. $this->name, $original );
 
             if ( is_callable( $method ) ) {
                 return $method( $d );
