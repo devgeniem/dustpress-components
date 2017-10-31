@@ -248,6 +248,8 @@ function override_component_data_filter( $original ) {
         return $original( $data );
     };
 }
+
+add_filter( 'dustpress/components/data_method=text', 'override_component_data_filter' );
 ```
 
 ## Component settings
