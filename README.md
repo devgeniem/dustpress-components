@@ -218,6 +218,36 @@ function modify_component_data( $data ) {
 add_filter( 'dustpress/data/component=text', 'modify_component_data' );
 ```
 
+### Override component data function
+
+Sometimes you may want to override the whole data function of a component. It can be done via another filter and closures:
+
+```php
+<?php
+
+function override_component_data_filter( $original ) {
+    return function( $data ) {
+        // Alter the data here.
+        return $data;
+    };
+}
+```
+
+You can also call the original data function either before or after your custom code:
+
+```php
+<?php
+
+function override_component_data_filter( $original ) {
+    return function( $data ) use ( $original ) {
+        // Alter the data here.
+
+        // Run the original data function after your custom modifications.
+        return $original( $data );
+    };
+}
+```
+
 ## Component settings
 
 Dustpress Components creates an options page called "Components settings" to the WordPress admin side. Components can add options to that page as easily as their own fields are defined. If component has option fields, they are displayed in their own tab on the options page.

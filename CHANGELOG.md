@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+- Added documention for overriding data function
+
 ## [0.6.2] - 2017-10-30
 
 ### Added
