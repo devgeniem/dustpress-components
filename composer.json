@@ -20,6 +20,6 @@
     }
   ],
   "require": {
-    "devgeniem/acf-codifier": "dev-master"
+    "devgeniem/acf-codifier": "*@dev"
   }
 }
