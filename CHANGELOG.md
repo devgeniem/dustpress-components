@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - Changed the component data filter to be more logically named
 - Fixed the before method that wasn't ran in several previous versions
+- Changed ACF Codifier's require block in the composer.json to one that's working
 
 ## [0.6.2] - 2017-10-30
 

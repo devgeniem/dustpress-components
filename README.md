@@ -215,7 +215,7 @@ function modify_component_data( $data ) {
     return $data;
 }
 
-add_filter( 'dustpress/data/component=text', 'modify_component_data' );
+add_filter( 'dustpress/components/data=text', 'modify_component_data' );
 ```
 
 ### Override component data function
