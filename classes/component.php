@@ -94,7 +94,7 @@ class Component {
         }
 
         if ( method_exists( $this, 'before' ) ) {
-            add_filter( 'dustpress/data/component=' . $this->name, function( $d ) use ( $class ) {
+            add_filter( 'dustpress/components/data=' . $this->name, function( $d ) use ( $class ) {
                 if ( ! isset( static::$before_run ) ) {
                     $this->before();
                     static $before_run = true;

@@ -6,14 +6,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-### Added
-- Added documention for overriding data function
+## [0.7.0] - 2017-11-16
+
+### Changed
+- Changed the component data filter to be more logically named
+- Fixed the before method that wasn't ran in several previous versions
+- Changed ACF Codifier's require block in the composer.json to one that's working
 
 ## [0.6.2] - 2017-10-30
 
 ### Added
 - Added ACF Codifier as a dependency for the plugin
 - Made component's data function to be overridable
+- Added documention for overriding data function
 
 ### Changed
 - Changed all built-in components to be defined with ACF Codifier
