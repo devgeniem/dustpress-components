@@ -20,6 +20,6 @@
     }
   ],
   "require": {
-    "devgeniem/acf-codifier": "*@dev"
+    "devgeniem/acf-codifier": "^0.1.0"
   }
 }
