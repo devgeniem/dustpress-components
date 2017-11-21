@@ -6,10 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.7.2] - 2017-11-20
+
+### Changed
+- Changed ACF Codifier's Composer require to include newer version
+
 ## [0.7.1] - 2017-11-17
 
 ### Changed
-- Changed ACF Codifier's require block to point to the stable release
+- Changed ACF Codifier's Composer require to point to the stable release
 
 ## [0.7.0] - 2017-11-16
 
