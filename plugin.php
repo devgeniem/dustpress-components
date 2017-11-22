@@ -309,7 +309,7 @@ class Components {
         // Adds component specific tab and options to options page component-settings
         acf_add_local_field_group( array(
             'key'       => 'group_dpc_settings',
-            'title'     => apply_filters( 'dustpress/components/settings_label', __( 'Components Settings', 'dustpress-components' ) ),
+            'title'     => apply_filters( 'dustpress/components/settings_title', __( 'Components Settings', 'dustpress-components' ) ),
             'fields'    => self::get_components_options(),
             // DustPress component options location
             'location' => array(
