@@ -259,9 +259,9 @@ class Components {
                         'class' => apply_filters( 'dustpress/components/field_class', '' ),
                         'id'    => apply_filters( 'dustpress/components/field_id', '' ),
                     ),
-                    'button_label'      => apply_filters( 'dustpress/components/button_label', __( 'Add component', 'dustpress-components' ) ),
-                    'min'               => apply_filters( 'dustpress/components/field_minimum', '' ),
-                    'max'               => apply_filters( 'dustpress/components/field_maximum', '' ),
+                    'button_label'      => apply_filters( 'dustpress/components/field_button_label', __( 'Add component', 'dustpress-components' ) ),
+                    'min'               => apply_filters( 'dustpress/components/field_min', '' ),
+                    'max'               => apply_filters( 'dustpress/components/field_max', '' ),
                     'layouts'           => self::get_components()
                 ),
             ),
