@@ -13,13 +13,7 @@
   "keywords": [
     "wordpress", "geniem", "dustpress", "wp", "plugin"
   ],
-  "repositories": [
-    {
-      "type": "git",
-      "url": "ssh://git@github.com/devgeniem/acf-codifier.git"
-    }
-  ],
   "require": {
-    "devgeniem/acf-codifier": ">=0.2.0"
+    "devgeniem/acf-codifier": "^1.0.0"
   }
 }
