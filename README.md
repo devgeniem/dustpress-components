@@ -218,6 +218,15 @@ function modify_component_data( $data ) {
 add_filter( 'dustpress/components/data=text', 'modify_component_data' );
 ```
 
+#### Disable data filtering
+
+To disable data filtering define the constant `DPC_DISABLE_DATA_FILTERING` with a boolean value of `true`. This is useful if data filtering is done elsewhere to prevent double handling.
+
+```php
+<?php
+define( 'DPC_DISABLE_DATA_FILTERING', true );
+```
+
 ### Override component data function
 
 Sometimes you may want to override the whole data function of a component. It can be done via another filter and closures:

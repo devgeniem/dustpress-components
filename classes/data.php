@@ -55,6 +55,15 @@ class Data {
      * @param  array $data Array of ACF fields data.
      */
     public static function component_handle( &$data ) {
+
+        // If filtering is disabled, bail early.
+        if (
+            defined( 'DPC_DISABLE_DATA_FILTERING' ) &&
+            DPC_DISABLE_DATA_FILTERING === true
+        ) {
+            return;
+        }
+
         if ( is_array( $data ) ) {
             foreach ( $data as &$val ) {
                 self::component_handle( $val );
@@ -66,5 +75,6 @@ class Data {
                 }
             }
         }
+
     }
 }
