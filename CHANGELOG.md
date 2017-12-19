@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- A functionality to disable data filtering with a PHP constant.
+
 ## [1.0.0] - 2017-11-22
 
 ### Added
