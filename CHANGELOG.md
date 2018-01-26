@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.7.1] - 2018-01-26
+
+### Fixed
+- Fixed a bug where non-Codifier component with options would cause an error
+
 ## [0.7.0] - 2017-11-16
 
 ### Changed

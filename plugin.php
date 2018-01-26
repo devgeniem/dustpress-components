@@ -3,7 +3,7 @@
  * Plugin Name: DustPress Components
  * Plugin URI: https://github.com/devgeniem/dustpress-components
  * Description: A WordPress, DustPress and ACF Flexible Contents plugin for modular component structures.
- * Version: 0.6.2
+ * Version: 0.7.1
  * Author: Geniem Oy
  * Text Domain: dustpress-components
  * Author URI: http://www.geniem.com
@@ -144,9 +144,16 @@ class Components {
 
                     // if options were found add tab to component settings page
                     if ( ! empty( $component_options ) && is_array( $component_options ) ) {
+                        if ( method_exists( $component_options, 'get_label' ) ) {
+                            $label = $component_options->get_label();
+                        }
+                        else {
+                            $label = $component->label;
+                        }
+
                         $component_tab = array (
                             'key'                   => 'field_dpc_settings_' . $component->name,
-                            'label'                 => ( $component->options() )->get_label() ?? $component->label,
+                            'label'                 => $label,
                             'name'                  => 'dpc_' . $component->name . '_tab',
                             'type'                  => 'tab',
                             'instructions'          => '',
