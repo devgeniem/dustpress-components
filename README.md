@@ -91,7 +91,7 @@ $rule_group = (new RuleGroup())
             ->add_rule( 'post_type', '==', 'post' );
 
 // Add rule group to the field group.
-$field_group->add_rule_group( $rule_group );
+$group->add_rule_group( $rule_group );
 
 $clone = (new Field\CloneField( __( 'Components', 'theme-textdomain' ) ))
             ->set_key( 'field_cloned_dpc_flexible' )
