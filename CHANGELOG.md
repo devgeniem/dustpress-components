@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 - Added ACF Codifier example for adding a rule group to the field group.
+- Fixed plugin.php version number.
 
 ## [1.1.1]
 
