@@ -80,10 +80,18 @@ or if you prefer to use ACF Codifier which comes as a depedency with DustPress C
 <?php
 namespace Geniem\ACF;
 
+// Create new group
 $group = (new Group( __( 'Components', 'theme_textdomain' ) ))
             ->set_key( 'group_cloned_dpc_flexible' )
             ->set_menu_order( 100 )
             ->hide_element( 'the_content' );
+
+// Create a new rule group.
+$rule_group = (new RuleGroup())
+            ->add_rule( 'post_type', '==', 'post' );
+
+// Add rule group to the field group.
+$group->add_rule_group( $rule_group );
 
 $clone = (new Field\CloneField( __( 'Components', 'theme-textdomain' ) ))
             ->set_key( 'field_cloned_dpc_flexible' )
@@ -216,6 +224,15 @@ function modify_component_data( $data ) {
 }
 
 add_filter( 'dustpress/components/data=text', 'modify_component_data' );
+```
+
+#### Disable data filtering
+
+To disable data filtering define the constant `DPC_DISABLE_DATA_FILTERING` with a boolean value of `true`. This is useful if data filtering is done elsewhere to prevent double handling.
+
+```php
+<?php
+define( 'DPC_DISABLE_DATA_FILTERING', true );
 ```
 
 ### Override component data function

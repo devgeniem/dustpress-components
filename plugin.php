@@ -3,7 +3,7 @@
  * Plugin Name: DustPress Components
  * Plugin URI: https://github.com/devgeniem/dustpress-components
  * Description: A WordPress, DustPress and ACF Flexible Contents plugin for modular component structures.
- * Version: 0.7.1
+ * Version: 1.1.3
  * Author: Geniem Oy
  * Text Domain: dustpress-components
  * Author URI: http://www.geniem.com
@@ -125,8 +125,7 @@ class Components {
     private static function get_components_options() {
 
         $return = [];
-        $options_placement = 'top';
-        $options_placement = apply_filters( 'dustpress/components/options_placement', $options_placement );
+        $options_placement = apply_filters( 'dustpress/components/options_placement', 'top' );
 
 
         if ( is_array( self::$components ) && count( self::$components ) > 0 ) {
@@ -207,7 +206,7 @@ class Components {
                         'key'               => 'clonable_' . $component->name,
                         'label'             => $component->label,
                         'name'              => $component->name,
-                        'type'              => 'repeater',
+                        'type'              => 'group',
                         'instructions'      => '',
                         'required'          => 1,
                         'conditional_logic' => 0,
@@ -217,10 +216,7 @@ class Components {
                             'id'    => '',
                         ),
                         'collapsed'         => '',
-                        'min'               => 1,
-                        'max'               => 1,
                         'layout'            => 'block',
-                        'button_label'      => __( 'Add component', 'dustpress-components' ),
                         'sub_fields'        => array(
                             array(
                                 'key'               => 'clone_' . $component->name,
@@ -254,25 +250,25 @@ class Components {
 
     public static function register_field_group() {
         acf_add_local_field_group( array(
-            'key'                   => 'dpc_field_group',
-            'title'                 => __( 'Components', 'dustpress-components' ),
+            'key'                   => apply_filters( 'dustpress/components/group_key', 'dpc_field_group' ),
+            'title'                 => apply_filters( 'dustpress/components/group_title', __( 'Components', 'dustpress-components' ) ),
             'fields'                => array(
                 array(
-                    'key'               => 'dpc_flexible_field',
-                    'label'             => __( 'Components', 'dustpress-components' ),
-                    'name'              => 'c',
+                    'key'               => apply_filters( 'dustpress/components/field_key', 'dpc_flexible_field' ),
+                    'label'             => apply_filters( 'dustpress/components/field_label', __( 'Components', 'dustpress-components' ) ),
+                    'name'              => apply_filters( 'dustpress/components/field_name', 'c' ),
                     'type'              => 'flexible_content',
-                    'instructions'      => '',
+                    'instructions'      => apply_filters( 'dustpress/components/field_instructions', '' ),
                     'required'          => 0,
                     'conditional_logic' => 0,
                     'wrapper'           => array(
-                        'width' => '',
-                        'class' => '',
-                        'id'    => '',
+                        'width' => apply_filters( 'dustpress/components/field_width', '' ),
+                        'class' => apply_filters( 'dustpress/components/field_class', '' ),
+                        'id'    => apply_filters( 'dustpress/components/field_id', '' ),
                     ),
-                    'button_label'      => __( 'Add component', 'dustpress-components' ),
-                    'min'               => '',
-                    'max'               => '',
+                    'button_label'      => apply_filters( 'dustpress/components/field_button_label', __( 'Add component', 'dustpress-components' ) ),
+                    'min'               => apply_filters( 'dustpress/components/field_min', '' ),
+                    'max'               => apply_filters( 'dustpress/components/field_max', '' ),
                     'layouts'           => self::get_components()
                 ),
             ),
@@ -285,14 +281,14 @@ class Components {
                     ),
                 ),
             ),
-            'menu_order'            => 0,
-            'position'              => 'normal',
-            'style'                 => 'default',
-            'label_placement'       => 'top',
-            'instruction_placement' => 'label',
+            'menu_order'            => apply_filters( 'dustpress/components/field_menu_order', 0 ),
+            'position'              => apply_filters( 'dustpress/components/field_position', 'normal' ),
+            'style'                 => apply_filters( 'dustpress/components/field_style', 'default' ),
+            'label_placement'       => apply_filters( 'dustpress/components/field_label_placement', 'top' ),
+            'instruction_placement' => apply_filters( 'dustpress/components/field_instruction_placement', 'label' ),
             'hide_on_screen'        => '',
             'active'                => 0,
-            'description'           => '',
+            'description'           => apply_filters( 'dustpress/components/field_description', '' ),
         ) );
         acf_add_local_field_group( array(
             'key'                   => 'dpc_local_fields',
@@ -318,28 +314,28 @@ class Components {
         ) );
 
         // Adds component specific tab and options to options page component-settings
-        acf_add_local_field_group( array (
+        acf_add_local_field_group( array(
             'key'       => 'group_dpc_settings',
-            'title'     => __( 'Components Settings', 'dustpress-components' ),
+            'title'     => apply_filters( 'dustpress/components/settings_title', __( 'Components Settings', 'dustpress-components' ) ),
             'fields'    => self::get_components_options(),
             // DustPress component options location
-            'location' => array (
-                array (
-                    array (
+            'location' => array(
+                array(
+                    array(
                         'param'     => 'options_page',
                         'operator'  => '==',
                         'value'     => 'components-settings',
                     ),
                 ),
             ),
-            'menu_order'                => 0,
-            'position'                  => 'normal',
-            'style'                     => 'default',
-            'label_placement'           => 'top',
-            'instruction_placement'     => 'label',
+            'menu_order'                => apply_filters( 'dustpress/components/settings_menu_order', 0 ),
+            'position'                  => apply_filters( 'dustpress/components/settings_position', 'normal' ),
+            'style'                     => apply_filters( 'dustpress/components/settings_style', 'default' ),
+            'label_placement'           => apply_filters( 'dustpress/components/settings_label_placement', 'top' ),
+            'instruction_placement'     => apply_filters( 'dustpress/components/settings_instruction_placement', 'label' ),
             'hide_on_screen'            => '',
             'active'                    => 1,
-            'description'               => '',
+            'description'               => apply_filters( 'dustpress/components/settings_description', '' ),
         ));
 
     }
