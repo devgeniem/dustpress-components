@@ -83,7 +83,7 @@ class Components {
             foreach ( new \RecursiveIteratorIterator( new \RecursiveDirectoryIterator( __DIR__ . '/layouts/', \RecursiveDirectoryIterator::SKIP_DOTS ) ) as $file ) {
                 $meta = pathinfo( $file );
                 if ( $meta['basename'] === 'plugin.php' ) {
-                    require_once( $file );
+                    require_once $file;
                 }
             }
         }
@@ -105,10 +105,6 @@ class Components {
                     $fields = $component->fields();
                     $fields = apply_filters( 'dustpress/components/fields', $fields );
                     $fields = apply_filters( 'dustpress/components/fields=' . $component->name, $fields );
-
-                    if ( $fields instanceof \Geniem\ACF\Field\Flexible\Layout ) {
-                        $fields = $fields->export();
-                    }
 
                     $return[] = $fields;
                 }
@@ -249,47 +245,26 @@ class Components {
     }
 
     public static function register_field_group() {
-        acf_add_local_field_group( array(
-            'key'                   => apply_filters( 'dustpress/components/group_key', 'dpc_field_group' ),
-            'title'                 => apply_filters( 'dustpress/components/group_title', __( 'Components', 'dustpress-components' ) ),
-            'fields'                => array(
-                array(
-                    'key'               => apply_filters( 'dustpress/components/field_key', 'dpc_flexible_field' ),
-                    'label'             => apply_filters( 'dustpress/components/field_label', __( 'Components', 'dustpress-components' ) ),
-                    'name'              => apply_filters( 'dustpress/components/field_name', 'c' ),
-                    'type'              => 'flexible_content',
-                    'instructions'      => apply_filters( 'dustpress/components/field_instructions', '' ),
-                    'required'          => 0,
-                    'conditional_logic' => 0,
-                    'wrapper'           => array(
-                        'width' => apply_filters( 'dustpress/components/field_width', '' ),
-                        'class' => apply_filters( 'dustpress/components/field_class', '' ),
-                        'id'    => apply_filters( 'dustpress/components/field_id', '' ),
-                    ),
-                    'button_label'      => apply_filters( 'dustpress/components/field_button_label', __( 'Add component', 'dustpress-components' ) ),
-                    'min'               => apply_filters( 'dustpress/components/field_min', '' ),
-                    'max'               => apply_filters( 'dustpress/components/field_max', '' ),
-                    'layouts'           => self::get_components()
-                ),
-            ),
-            'location'              => array(
-                array(
-                    array(
-                        'param'    => 'post_type',
-                        'operator' => '==',
-                        'value'    => 'post',
-                    ),
-                ),
-            ),
-            'menu_order'            => apply_filters( 'dustpress/components/field_menu_order', 0 ),
-            'position'              => apply_filters( 'dustpress/components/field_position', 'normal' ),
-            'style'                 => apply_filters( 'dustpress/components/field_style', 'default' ),
-            'label_placement'       => apply_filters( 'dustpress/components/field_label_placement', 'top' ),
-            'instruction_placement' => apply_filters( 'dustpress/components/field_instruction_placement', 'label' ),
-            'hide_on_screen'        => '',
-            'active'                => 0,
-            'description'           => apply_filters( 'dustpress/components/field_description', '' ),
-        ) );
+        $field_group = new \Geniem\ACF\Group( apply_filters( 'dustpress/components/group_title', __( 'Components', 'dustpress-components' ) ) );
+        $field_group->set_key( apply_filters( 'dustpress/components/group_key', 'dpc_field_group' ) );
+
+        $flexible = new \Geniem\ACF\Field\FlexibleContent( apply_filters( 'dustpress/components/field_label', __( 'Components', 'dustpress-components' ) ) );
+        $flexible->set_key( apply_filters( 'dustpress/components/field_key', 'dpc_flexible_field' ) )
+                 ->set_name( apply_filters( 'dustpress/components/field_name', 'c' ) )
+                 ->set_instructions( apply_filters( 'dustpress/components/field_instructions', '' ) )
+                 ->set_button_label( apply_filters( 'dustpress/components/field_button_label', __( 'Add component', 'dustpress-components' ) ) )
+                 ->set_layouts( self::get_components() );
+
+        $field_group->add_field( $flexible );
+
+        $field_group->set_menu_order( apply_filters( 'dustpress/components/field_menu_order', 0 ) )
+                    ->set_position( apply_filters( 'dustpress/components/field_position', 'normal' ) )
+                    ->set_style( apply_filters( 'dustpress/components/field_style', 'default' ) )
+                    ->set_label_placement( apply_filters( 'dustpress/components/field_label_placement', 'top' ) )
+                    ->set_instruction_placement( apply_filters( 'dustpress/components/field_instruction_placement', 'label' ) );
+
+        $field_group->register();
+
         acf_add_local_field_group( array(
             'key'                   => 'dpc_local_fields',
             'title'                 => 'Local fields',
