@@ -77,12 +77,13 @@ class Component {
     function __construct() {
         $class                = get_class( $this );
         $component_reflection = new \ReflectionClass( $this );
+        $plugin_file_path     = $component_reflection->getFileName();
 
         // If there is no path set, default to component directory.
         if ( empty( $this->path ) ) {
-            $this->path = dirname( $component_reflection->getFileName() );
+            $this->path = dirname( $plugin_file_path );
         }
-        $plugin_file_path = $this->path . '/plugin.php';
+
         $plugin           = get_plugin_data( $plugin_file_path );
         $this->version    = $plugin['Version'] ?? '';
         $this->textdomain = $plugin['TextDomain'] ?? '';
