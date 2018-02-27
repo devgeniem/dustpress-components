@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+## [1.1.4] - 2018-02-27
+
 ### Changed
 - Fix component plugins with different file names than plugin.php
 
