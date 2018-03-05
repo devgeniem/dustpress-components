@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+### Changed
+- Fix empty flexible fields
+
 ## [1.2.1] - 2018-03-05
 
 ### Changed

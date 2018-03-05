@@ -30,7 +30,7 @@ class Data {
         }
 
         // If field is flexible content, loop its fields
-        if ( $field && $field['type'] === 'flexible_content' ) {
+        if ( $field && $field['type'] === 'flexible_content' && ! empty( $value ) ) {
             foreach ( $value as $i => $component ) {
                 $value[ $i ] = static::component_handle( $component, $post_id );
             }
