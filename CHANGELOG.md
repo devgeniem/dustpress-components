@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+### Changed
+- Fixed static components not running component data function
+
 ## [1.1.4] - 2018-02-27
 
 ### Changed

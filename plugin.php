@@ -45,8 +45,9 @@ class Components {
         add_action( 'init', __NAMESPACE__ . '\Components::hook', 20, 1 );
         add_action( 'dustpress/partials', __NAMESPACE__ . '\Components::add_partial_path', 1, 1 );
         add_action( 'activated_plugin', __NAMESPACE__ . '\Components::load_first', 1, 1 );
-        add_filter( 'acf/format_value', __NAMESPACE__ . '\Components::add_layout_static', 150, 3 );
-        add_filter( 'dustpress/data', __NAMESPACE__ . '\Data::component_invoke', 1, 1 );
+        add_filter( 'acf/format_value/type=group', __NAMESPACE__ . '\Components::add_layout_static', 150, 3 );
+        add_filter( 'acf/format_value/type=group', __NAMESPACE__ . '\Data::component_handle', 200, 3 );
+        add_filter( 'acf/format_value/type=flexible_content', __NAMESPACE__ . '\Data::component_handle', 200, 3 );
     }
 
     /**
@@ -361,7 +362,11 @@ class Components {
      */
     public static function add_layout_static( $value, $post_id, $field ) {
         if ( strpos( $field['key'], 'clonable' ) !== false ) {
-            $value[0]['acf_fc_layout'] = $field['name'];
+            // Remove clonable from key so it matches the key format in the normal flexible content
+            $component = str_replace( 'clonable_', '', $field['__key'] );
+            if ( ! empty( $component ) ) {
+                $value['acf_fc_layout'] = $component;
+            }
         }
         return $value;
     }
