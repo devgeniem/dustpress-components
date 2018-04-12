@@ -94,6 +94,15 @@ class Components {
         self::$components[] = $component;
     }
 
+    /**
+     * Get registered components
+     *
+     * @return array
+     */
+    public static function get_instances() {
+        return self::$components;
+    }
+
     private static function get_components() {
         $return = [];
         if ( is_array( self::$components ) && count( self::$components ) > 0 ) {
