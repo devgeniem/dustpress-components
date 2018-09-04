@@ -74,24 +74,27 @@ class Component {
      * The class constructor.
      * This must be called in the subclass constuctor.
      */
-    function __construct() {
-        $class                = get_class( $this );
-        $component_reflection = new \ReflectionClass( $this );
-        $plugin_file_path     = $component_reflection->getFileName();
+    public function __construct() {
+        $class = get_class( $this );
 
-        // If there is no path set, default to component directory.
-        if ( empty( $this->path ) ) {
-            $this->path = dirname( $plugin_file_path );
-        }
+        if ( ! $this->textdomain_loaded ) {
+            $component_reflection = new \ReflectionClass( $this );
+            $plugin_file_path     = $component_reflection->getFileName();
 
-        $plugin           = get_plugin_data( $plugin_file_path );
-        $this->version    = $plugin['Version'] ?? '';
-        $this->textdomain = $plugin['TextDomain'] ?? '';
+            // If there is no path set, default to component directory.
+            if ( empty( $this->path ) ) {
+                $this->path = dirname( $plugin_file_path );
+            }
 
-        if ( is_readable( $this->path . '/languages/' . get_locale() . '.mo' ) &&
-             ! empty( $this->textdomain )
-        ) {
-            load_textdomain( $this->textdomain, $this->path . '/languages/' . get_locale() . '.mo' );
+            $plugin           = get_plugin_data( $plugin_file_path );
+            $this->version    = $plugin['Version'] ?? '';
+            $this->textdomain = $plugin['TextDomain'] ?? '';
+
+            if ( is_readable( $this->path . '/languages/' . get_locale() . '.mo' ) &&
+                ! empty( $this->textdomain )
+            ) {
+                load_textdomain( $this->textdomain, $this->path . '/languages/' . get_locale() . '.mo' );
+            }
         }
 
         if ( method_exists( $this, 'before' ) ) {
@@ -107,7 +110,7 @@ class Component {
 
         add_filter( 'dustpress/components/data=' . $this->name, function( $d ) {
             // Make data function filterable
-            $method = apply_filters( 'dustpress/components/data_method='. $this->name, null );
+            $method = apply_filters( 'dustpress/components/data_method=' . $this->name, null );
 
             if ( is_callable( $method ) ) {
                 return $method( $d );
@@ -157,7 +160,7 @@ class Component {
      * @return array
      */
     public function add_partial_path( $p ) {
-        $p[] = $this->path;
+        $p[] = dirname( $this->path );
 
         return $p;
     }
