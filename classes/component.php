@@ -77,7 +77,7 @@ class Component {
     public function __construct() {
         $class = get_class( $this );
 
-        if ( ! $this->textdomain_loaded ) {
+        if ( empty( $this->textdomain_loaded ) ) {
             $component_reflection = new \ReflectionClass( $this );
             $plugin_file_path     = $component_reflection->getFileName();
 
