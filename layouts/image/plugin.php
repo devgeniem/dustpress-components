@@ -4,7 +4,7 @@ namespace DustPress\Components;
 use Geniem\ACF\Field;
 
 class Image extends Component {
-	var $label = 'Image';
+	var $label = 'Kuva';
 	var $name = 'image';
 
 	public function fields() {
@@ -12,7 +12,7 @@ class Image extends Component {
 			->set_key( 'dpc_image' )
 			->set_name( $this->name )
 			->set_label( $this->label )
-			->add_field( (new Field\Image( 'Image' ))
+			->add_field( (new Field\Image( 'Kuva' ))
 				->set_key( 'dpc_image_image' )
 				->set_name( 'i' )
 			);

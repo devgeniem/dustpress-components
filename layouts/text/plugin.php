@@ -4,7 +4,7 @@ namespace DustPress\Components;
 use Geniem\ACF\Field;
 
 class Text extends Component {
-	var $label = 'Text';
+	var $label = 'Tekstikenttä';
 	var $name = 'text';
 
 	public function fields() {
@@ -12,7 +12,7 @@ class Text extends Component {
 			->set_key( 'dpc_text' )
 			->set_name( $this->name )
 			->set_label( $this->label )
-			->add_field( (new Field\Textarea( 'Text' ))
+			->add_field( (new Field\Textarea( 'Tekstikenttä' ))
 				->set_key( 'dpc_text_text' )
 				->set_name( 't' )
 			);
