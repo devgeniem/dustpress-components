@@ -3,7 +3,7 @@
  * Plugin Name: DustPress Components
  * Plugin URI: https://github.com/devgeniem/dustpress-components
  * Description: A WordPress, DustPress and ACF Flexible Contents plugin for modular component structures.
- * Version: 1.2.4
+ * Version: 1.2.5
  * Author: Geniem Oy
  * Text Domain: dustpress-components
  * Author URI: http://www.geniem.com
@@ -117,7 +117,7 @@ class Components {
                     $fields = apply_filters( 'dustpress/components/fields=' . $component->name, $fields );
 
                     if ( $fields instanceof \Geniem\ACF\Field\Flexible\Layout ) {
-                        $fields = $fields->export();
+                        $fields = $fields->export( true );
                     }
 
                     $return[] = $fields;
