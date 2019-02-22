@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+### Deleted
+- Deleted unnecessary text from text component.
+
 ## [1.2.4] - 2018-04-12
 
 ### Added
