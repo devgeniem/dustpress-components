@@ -108,10 +108,10 @@ class Components {
         if ( is_array( self::$components ) && count( self::$components ) > 0 ) {
             foreach ( apply_filters( 'dustpress/components', self::$components ) as $component ) {
                 $component->label = __( $component->label, $component->textdomain );
-                if ( method_exists( $component, 'init' ) ) {
+                if ( method_exists( (object) $component, 'init' ) ) {
                     $component->init();
                 }
-                if ( method_exists( $component, 'fields' ) ) {
+                if ( method_exists( (object) $component, 'fields' ) ) {
                     $fields = $component->fields();
                     $fields = apply_filters( 'dustpress/components/fields', $fields );
                     $fields = apply_filters( 'dustpress/components/fields=' . $component->name, $fields );
@@ -143,7 +143,7 @@ class Components {
 
                 $tab_label = __( $component->label, $component->textdomain );
 
-                if ( method_exists( $component, 'options' ) ) {
+                if ( method_exists( (object) $component, 'options' ) ) {
 
                     $component_options  = apply_filters( 'dustpress/components/options=' . $component->name, $component->options() );
 
@@ -153,7 +153,10 @@ class Components {
 
                     // if options were found add tab to component settings page
                     if ( ! empty( $component_options ) && is_array( $component_options ) ) {
-                        if ( method_exists( $component_options, 'get_label' ) ) {
+
+                        //die( var_dump( (object) $component_options ) );
+
+                        if ( method_exists( (object) $component_options, 'get_label' ) ) {
                             $label = $component_options->get_label();
                         }
                         else {
@@ -197,7 +200,7 @@ class Components {
         $return = [];
         if ( is_array( self::$components ) && count( self::$components ) > 0 ) {
             foreach ( apply_filters( 'dustpress/components', self::$components ) as $component ) {
-                if ( method_exists( $component, 'fields' ) ) {
+                if ( method_exists( (object) $component, 'fields' ) ) {
                     $component->label = __( $component->label, $component->textdomain );
                     $fields           = $component->fields();
                     $fields           = apply_filters( 'dustpress/components/fields', $fields );
