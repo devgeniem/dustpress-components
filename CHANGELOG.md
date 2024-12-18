@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Unreleased
 
+- is-object: Fix error with method_exists
+
 ## [1.2.5] - 2019-02-22
 
 ### Deleted
