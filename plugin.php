@@ -153,7 +153,7 @@ class Components {
 
                     // if options were found add tab to component settings page
                     if ( ! empty( $component_options ) && is_array( $component_options ) ) {
-                        if ( method_exists( $component_options, 'get_label' ) ) {
+                        if ( is_object( $component_options ) && method_exists( $component_options, 'get_label' ) ) {
                             $label = $component_options->get_label();
                         }
                         else {
